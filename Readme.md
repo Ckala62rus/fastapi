@@ -10,3 +10,8 @@ pipenv install fastapi[all]
 alembic init migrations
 alembic revision --autogenerate -m "init"
 alembic upgrade head
+
+
+run application
+
+uvicorn main:app --reload
