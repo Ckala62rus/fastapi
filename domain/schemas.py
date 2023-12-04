@@ -8,8 +8,8 @@ class PostBase(BaseModel):
     text: str
     date: datetime
 
-    class Config:
-        orm_mode = True
+    class ConfigDict:
+        from_attributes = True
 
 
 class PostList(PostBase):

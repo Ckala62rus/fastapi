@@ -2,7 +2,7 @@ from core.db import Base
 from sqlalchemy import Column, String, Integer, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 
-from domain.user import User
+from user.user import User
 
 
 class Post(Base):

@@ -1,17 +1,21 @@
-pip install sqlalchemy
-pip install psycopg2-binary
-pip install alembic
-pip install pipenv
-pipenv shell
-pipenv install fastapi[all]
+## Dependencies
 
-##### database fastapi
+> - pip install sqlalchemy
+> - pip install psycopg2-binary
+> - pip install alembic
+> - pip install pipenv
+> - pipenv shell
+> - pipenv install fastapi[all]
 
-alembic init migrations
-alembic revision --autogenerate -m "init"
-alembic upgrade head
+### Install all dependencies
+>   pip install -r requirements.txt
+
+### Database fastapi
+
+> - alembic init migrations
+> - alembic revision --autogenerate -m "init"
+> - alembic upgrade head
 
 
-run application
-
+### run application
 uvicorn main:app --reload
