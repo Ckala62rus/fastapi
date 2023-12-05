@@ -2,6 +2,10 @@ import time
 from typing import Dict
 
 import jwt
+from sqlalchemy.orm import Session
+
+from core import db
+from user.user import UserLoginSchema, User
 
 JWT_SECRET = "veryVerySecretKey"
 JWT_ALGORITHM = "HS256"
@@ -29,3 +33,11 @@ def decode_jwt(token: str) -> dict:
         return decoded_token if decoded_token["expires"] >= time.time() else None
     except:
         return {}
+
+
+def check_user(data: UserLoginSchema, db: Session):
+    users = db.query(User).all()
+    for user in users:
+        if user.email == data.email and user.password == data.password:
+            return True
+    return False
