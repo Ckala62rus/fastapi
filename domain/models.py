@@ -14,3 +14,11 @@ class Post(Base):
     date = Column(DateTime)
     user = Column(Integer, ForeignKey("users.id"))
     user_id = relationship(User)
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "title": "Securing FastAPI applications with JWT.",
+                "content": "In this tutorial, you'll learn how to secure your application by enabling authentication using JWT. We'll be using PyJWT to sign, encode and decode JWT tokens...."
+            }
+        }

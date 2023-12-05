@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from core.utils import get_db
-from . import service
-from . schemas import PostCreate, PostList
+from domain import service
+from domain.schemas import PostCreate, PostList
 
 
 router = APIRouter(tags=["Posts"])
