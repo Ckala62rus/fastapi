@@ -16,6 +16,6 @@ def post_list(db: Session = Depends(get_db)):
     return service.get_post_list(db)
 
 
-@router.post("")
+@router.post("", dependencies=[Depends(JWTBearer())])
 def post_list(item: PostCreate, db: Session = Depends(get_db)):
     return service.creat_post(db, item)

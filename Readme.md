@@ -22,6 +22,7 @@ pip install -r requirements.txt
 alembic init migrations
 alembic revision --autogenerate -m "init"
 alembic upgrade head
+alembic history
 ```
 
 ### run application
