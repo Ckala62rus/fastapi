@@ -21,13 +21,13 @@ def token_response(token: str):
 
 def sign_jwt(user_id: str) -> Dict[str, str]:
     payload = {
-        "user_id": user_id,
+        "email": user_id,
         "expires": time.time() + 600
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
     token_info = token_response(token)
-    token_info["user_id"] = str(user_id)
+    token_info["email"] = str(user_id)
     token_info["expires"] = str(datetime.utcfromtimestamp(payload["expires"]).strftime('%Y-%m-%d %H:%M:%S'))
 
     return token_info

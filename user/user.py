@@ -34,3 +34,8 @@ class UserLoginSchema(BaseModel):
                 "password": "123123"
             }
         }
+
+
+class UserMe(BaseModel):
+    id: int = Column("id")
+    email: str = Column("email")

@@ -1,4 +1,8 @@
 from passlib.hash import pbkdf2_sha256
+from sqlalchemy.orm import Session
+from fastapi import Request
+
+from user.user import User, UserMe
 
 
 def make_hash_password(password: str) -> str:
@@ -24,3 +28,21 @@ def compare_hash_password(input_password: str, password_form_database: str) -> b
     :return:
     """
     return pbkdf2_sha256.verify(input_password, password_form_database)
+
+
+def get_user(email: str, db: Session) -> UserMe:
+    user = db.query(User).filter(User.email == email).first()
+    return UserMe(id=user.id, email=user.email)
+
+
+def parse_authorization_header(request: Request) -> str:
+    """
+    Parse authorization header from request. And return
+    token
+    :param request: Request from Fastapi package
+    :return: Token from authentication header request
+    """
+    header = request.headers.get('Authorization')
+    if header is None:
+        raise "Header Authorization is None"
+    return header.split(" ")[1]
