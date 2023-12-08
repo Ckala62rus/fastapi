@@ -1,3 +1,4 @@
+import os
 import time
 from datetime import datetime
 from typing import Dict
@@ -5,12 +6,15 @@ from typing import Dict
 import jwt
 from sqlalchemy.orm import Session
 
-from core import db
 from user.user import UserLoginSchema, User
 from user.user_service import compare_hash_password
 
-JWT_SECRET = "veryVerySecretKey"
-JWT_ALGORITHM = "HS256"
+
+# JWT_SECRET = "veryVerySecretKey"
+# JWT_ALGORITHM = "HS256"
+JWT_SECRET = os.getenv("JWT_SECRET", "veryVerySecretKey")
+JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+TOKEN_TIME_EXPIRES = os.getenv("TOKEN_TIME_EXPIRES", 600)
 
 
 def token_response(token: str):
@@ -22,7 +26,7 @@ def token_response(token: str):
 def sign_jwt(user_id: str) -> Dict[str, str]:
     payload = {
         "email": user_id,
-        "expires": time.time() + 600
+        "expires": time.time() + TOKEN_TIME_EXPIRES
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
