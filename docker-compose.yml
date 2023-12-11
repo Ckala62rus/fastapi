@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   backend:
-    container_name: api
+    container_name: backend_fastapi
     build:
       context: .
       dockerfile: ./docker/fastapi/DockerFile
@@ -16,8 +16,37 @@ services:
       - db
       - redis
 
+  worker:
+    container_name: worker_fastapi
+    build:
+      context: .
+      dockerfile: ./docker/fastapi/DockerFile
+    command: bash -c "celery -A tasks.tasks.celery worker --loglevel=INFO"
+    volumes:
+      - ./src:/app
+    env_file:
+      - ./src/.env
+    depends_on:
+      - redis
+
+  flower:
+    container_name: flower_fastapi
+    build:
+      context: .
+      dockerfile: ./docker/fastapi/DockerFile
+    command: bash -c "celery --broker=redis://redis_fastapi:6379/0 flower --port=5555"
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./src:/app
+    env_file:
+      - ./src/.env
+    depends_on:
+      - redis
+      - worker
+
   db:
-    container_name: db
+    container_name: db_fastapi
     image: postgres:14.1-alpine
     restart: always
     ports:
@@ -40,6 +69,7 @@ services:
       - db
 
   redis:
+    container_name: redis_fastapi
     image: redis:7
     ports:
       - "6379:6379"
