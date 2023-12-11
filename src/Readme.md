@@ -10,6 +10,7 @@ pip install python-decouple
 pip install pydantic[email]
 pipenv shell
 pipenv install fastapi[all]
+pip install -U "celery[redis]"
 ```
 
 ### Install all dependencies
@@ -28,3 +29,15 @@ alembic downgrade 8ac14e223d1e
 
 ### run application
 uvicorn main:app --reload
+
+### celery start
+```Bash
+celery -A tasks.tasks.celery worker --loglevel=INFO --pool=solo
+```
+> --pool=solo fow run windows
+
+### celery flower start
+```Bash
+celery -A tasks.tasks.celery flower --port=5555
+celery --broker=redis://localhost:6379/0 flower --port=5555
+```

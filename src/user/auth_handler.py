@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from user.user import UserLoginSchema, User
 from user.user_service import compare_hash_password
 
-
+# todo remove comment
 # JWT_SECRET = "veryVerySecretKey"
 # JWT_ALGORITHM = "HS256"
 JWT_SECRET = os.getenv("JWT_SECRET", "veryVerySecretKey")
@@ -26,7 +26,7 @@ def token_response(token: str):
 def sign_jwt(user_id: str) -> Dict[str, str]:
     payload = {
         "email": user_id,
-        "expires": time.time() + TOKEN_TIME_EXPIRES
+        "expires": time.time() + int(TOKEN_TIME_EXPIRES)
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
