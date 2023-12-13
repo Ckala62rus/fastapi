@@ -18,3 +18,8 @@ class PostList(PostBase):
 
 class PostCreate(PostBase):
     pass
+
+
+class PostUpdate(BaseModel):
+    title: str
+    text: str
