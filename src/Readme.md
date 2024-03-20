@@ -41,3 +41,13 @@ celery -A tasks.tasks.celery worker --loglevel=INFO --pool=solo
 celery -A tasks.tasks.celery flower --port=5555
 celery --broker=redis://localhost:6379/0 flower --port=5555
 ```
+
+### hot to run debugger in docker
+
+First step
+
+![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](../docker/docs/fastapi%20debug%20docker.jpg)
+
+Second step
+
+![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](../docker/docs/fastapi%20debug%20docker_2.jpg)
