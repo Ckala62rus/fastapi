@@ -6,6 +6,24 @@ from celery import Celery
 
 
 celery = Celery('tasks', broker=os.getenv("CELERY_BROKER"))
+# celery.config_from_object(Config)
+
+
+@celery.on_after_configure.connect
+def setup_periodic_tasks(sender: Celery, **kwargs):
+    sender.add_periodic_task(20.0, check)
+
+
+@celery.task
+def check():
+    url = "https://api.telegram.org/bot_token/sendMessage"
+    response = requests.get(
+        url,
+        params={
+            "chat_id": 803431360,
+            "text": "test test test"
+        }
+    )
 
 
 @celery.task
