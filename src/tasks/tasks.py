@@ -16,7 +16,7 @@ def setup_periodic_tasks(sender: Celery, **kwargs):
 
 @celery.task
 def check():
-    url = "https://api.telegram.org/bot_token/sendMessage"
+    url = "https://api.telegram.org/bot6823753558:AAEOS7wEBxIMUnBbRBK-t4PqRxA8hfvAIYs/sendMessage"
     response = requests.get(
         url,
         params={
@@ -28,6 +28,7 @@ def check():
 
 @celery.task
 def telegram(message: str) -> None:
+    print("Hello!")
     time.sleep(5)
     token = os.getenv("TELEGRAM_BOT_TOKEN", "(example)5853484688:AAFzfJEjnHv3AMgWCpO5bsj6UhqgusvnkZc")
     url = f"https://api.telegram.org/bot{token}/sendMessage"
