@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class TaskSchema(BaseModel):
@@ -30,5 +30,3 @@ class TaskSchemaAdd(BaseModel):
 class TaskSchemaEdit(BaseModel):
     title: str
     description: str
-
-
