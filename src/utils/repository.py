@@ -46,3 +46,7 @@ class SQLAlchemyRepository(AbstractRepository):
         res = res.scalar()
         self.session.expunge_all()
         return res
+
+
+    async def delete(self, product):
+        await self.session.delete(product)

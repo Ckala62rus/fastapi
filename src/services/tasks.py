@@ -21,6 +21,16 @@ class TasksService:
             task = await uow.tasks.find_one(id=task_id)
             return task
 
+    async def delete_task_by_id(self, uow: IUnitOfWork, task_id):
+        async with uow:
+            task = await uow.tasks.find_one(id=task_id)
+            if task is not None:
+                await uow.tasks.delete(task)
+                await uow.commit()
+                return task_id
+
+            return None
+
     async def edit_task(self, uow: IUnitOfWork, task_id: int, task: TaskSchemaEdit):
         tasks_dict = task.model_dump()
         async with uow:

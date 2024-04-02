@@ -50,3 +50,14 @@ async def update_task_by_id(
         return {"detail": f"task with id:{task_id} not found."}
 
     return task
+
+
+@route.delete("/{task_id}/", status_code=status.HTTP_200_OK)
+async def delete_task_by_id(task_id: int, uow: UOWDep, response: Response):
+    task = await TasksService().delete_task_by_id(uow=uow, task_id=task_id)
+
+    if task is None:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {"detail": f"can not delete. task with id:{task_id} not found."}
+
+    return task
