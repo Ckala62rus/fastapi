@@ -1,4 +1,8 @@
-from schemas.tasks.tasks_schema import TaskSchemaAdd, TaskSchemaEdit
+from schemas.tasks.tasks_schema import (
+    TaskSchemaAdd,
+    TaskSchemaEdit,
+    TaskSchemaDescriptionEdit,
+)
 from utils.unitofwork import IUnitOfWork
 
 
@@ -48,5 +52,15 @@ class TasksService:
             # task_history_log = task_history_log.model_dump()
             # await uow.task_history.add_one(task_history_log)
 
+            await uow.commit()
+            return curr_task
+
+    async def update_task_description(
+        self, uow: IUnitOfWork, task_id: int, task_data: TaskSchemaDescriptionEdit
+    ):
+        tasks_dict = task_data.model_dump()
+        async with uow:
+            await uow.tasks.edit_one(task_id, tasks_dict)
+            curr_task = await uow.tasks.find_one(id=task_id)
             await uow.commit()
             return curr_task

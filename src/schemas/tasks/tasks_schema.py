@@ -30,3 +30,7 @@ class TaskSchemaAdd(BaseModel):
 class TaskSchemaEdit(BaseModel):
     title: str
     description: str
+
+
+class TaskSchemaDescriptionEdit(BaseModel):
+    description: str

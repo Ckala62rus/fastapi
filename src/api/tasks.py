@@ -3,7 +3,12 @@ from typing import List
 
 from starlette import status
 
-from schemas.tasks.tasks_schema import TaskSchemaAdd, TaskSchema, TaskSchemaEdit
+from schemas.tasks.tasks_schema import (
+    TaskSchemaAdd,
+    TaskSchema,
+    TaskSchemaEdit,
+    TaskSchemaDescriptionEdit,
+)
 from services.tasks import TasksService
 from utils.dependencies import UOWDep
 
@@ -48,6 +53,21 @@ async def update_task_by_id(
     if task is None:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {"detail": f"task with id:{task_id} not found."}
+
+    return task
+
+
+@route.patch("/{task_id}/")
+async def update_task_description_by_id(
+    task_id: int, task_data: TaskSchemaDescriptionEdit, uow: UOWDep, response: Response
+):
+    task = await TasksService().update_task_description(
+        uow=uow, task_id=task_id, task_data=task_data
+    )
+
+    if task is None:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {"detail": f"can not updated. task with id:{task_id} not found."}
 
     return task
 
