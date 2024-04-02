@@ -30,7 +30,8 @@ class SQLAlchemyRepository(AbstractRepository):
             update(self.model).values(**data).filter_by(id=id).returning(self.model.id)
         )
         res = await self.session.execute(stmt)
-        return res.scalar_one()
+        result = res.scalar()
+        return result
 
     async def find_all(self):
         stmt = select(self.model)

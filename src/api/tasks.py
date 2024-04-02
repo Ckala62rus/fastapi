@@ -3,7 +3,7 @@ from typing import List
 
 from starlette import status
 
-from schemas.tasks.tasks_schema import TaskSchemaAdd, TaskSchema
+from schemas.tasks.tasks_schema import TaskSchemaAdd, TaskSchema, TaskSchemaEdit
 from services.tasks import TasksService
 from utils.dependencies import UOWDep
 
@@ -29,6 +29,21 @@ async def create_task(task: TaskSchemaAdd, uow: UOWDep):
 @route.get("/{task_id}", status_code=status.HTTP_200_OK)
 async def get_task_by_id(task_id: int, uow: UOWDep, response: Response):
     task = await TasksService().get_task_by_id(uow, task_id=task_id)
+
+    if task is None:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {"detail": f"task with id:{task_id} not found."}
+
+    return task
+
+
+@route.put("/{task_id}", status_code=status.HTTP_200_OK)
+async def update_task_by_id(
+    task_id: int, task_for_update: TaskSchemaEdit, uow: UOWDep, response: Response
+):
+    task = await TasksService().edit_task(
+        uow=uow, task_id=task_id, task=task_for_update
+    )
 
     if task is None:
         response.status_code = status.HTTP_404_NOT_FOUND

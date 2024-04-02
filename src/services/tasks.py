@@ -39,3 +39,4 @@ class TasksService:
             # await uow.task_history.add_one(task_history_log)
 
             await uow.commit()
+            return curr_task
