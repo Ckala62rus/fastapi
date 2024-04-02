@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
 from typing import List
 
 from starlette import status
@@ -24,3 +24,14 @@ async def get_tasks(uow: UOWDep):
 )
 async def create_task(task: TaskSchemaAdd, uow: UOWDep):
     return await TasksService().add_task(uow, task)
+
+
+@route.get("/{task_id}", status_code=status.HTTP_200_OK)
+async def get_task_by_id(task_id: int, uow: UOWDep, response: Response):
+    task = await TasksService().get_task_by_id(uow, task_id=task_id)
+
+    if task is None:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {"detail": f"task with id:{task_id} not found."}
+
+    return task
